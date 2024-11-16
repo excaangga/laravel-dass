@@ -1,6 +1,8 @@
 <?php
 
-use App\Http\Controllers\api\v1\ExampleController;
+use App\Http\Controllers\api\v1\AuthController;
+use App\Http\Controllers\api\v1\QuestionController;
+use Illuminate\Support\Facades\Route;
 
 /*
 |--------------------------------------------------------------------------
@@ -13,20 +15,15 @@ use App\Http\Controllers\api\v1\ExampleController;
 |
 */
 
-// Authenticated API (sanctum)
-Route::group([
-    'middleware' => ['api_authenticated']
-], function() {
-
-    Route::get('/example-authenticated', [ExampleController::class, 'authenticated']);
-
-});
-
-// Public API
 Route::group([
     'middleware' => ['api_public'],
 ], function () {
 
-    Route::get('/example', [ExampleController::class, 'index']);
+    Route::post('/login', [AuthController::class, 'login']);
+    Route::post('/register', [AuthController::class, 'register']);
+    Route::get('/logout', [AuthController::class, 'logout']);
+    Route::get('/show', [AuthController::class, 'showAuthInfo']);
+
+    Route::post('/questionnaire', [QuestionController::class, 'index']);
 
 });

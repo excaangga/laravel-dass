@@ -11,11 +11,12 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('users', function (Blueprint $table) {
+        Schema::create('client_scores', function (Blueprint $table) {
             $table->id();
-            $table->string('email')->unique();
-            $table->timestamp('email_verified_at')->nullable();
-            $table->string('password');
+            $table->foreignId('profile_id')->constrained()->onDelete('cascade');
+            $table->foreignId('question_team_id')->constrained()->onDelete('cascade');
+            $table->enum('symptom', ['DEPRESSION', 'ANXIETY', 'STRESS']);
+            $table->decimal('score_value', 12, 11);
             $table->timestamps();
         });
     }
@@ -25,6 +26,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('users');
+        Schema::dropIfExists('client_scores');
     }
 };

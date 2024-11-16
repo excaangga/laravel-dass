@@ -1,6 +1,6 @@
 import { RouterProvider } from 'react-router-dom';
 import router from "./router";
-import ToastNotifications from "@/components/ToastNotifications";
+import { Toaster } from 'react-hot-toast';
 
 function App() {
     return (
@@ -8,7 +8,10 @@ function App() {
             <RouterProvider
                 router={router}
             />
-            <ToastNotifications />
+            <Toaster
+                position='top-right'
+                reverseOrder
+            />
         </div>
     );
 }

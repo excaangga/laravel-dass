@@ -1,13 +1,15 @@
 import { ReactNode } from "react";
 import { Outlet } from "react-router-dom";
-import Header from "@/components/Header";
+import Sidebar from "@/components/Sidebar";
 
 export default function RootLayout(props: { children?: ReactNode }) {
     return (
-        <main className="p-4">
-            <Header />
-            {props.children}
-            <Outlet />
+        <main className="flex">
+            <Sidebar />
+            <div className="flex-1 p-4 ml-64 text-gray-700">
+                {props.children}
+                <Outlet />
+            </div>
         </main>
     );
 }

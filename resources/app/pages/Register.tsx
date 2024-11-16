@@ -1,3 +1,4 @@
+import { Option } from "@/types/global";
 import axios from "axios";
 import React, { useState } from "react";
 import toast from "react-hot-toast";
@@ -5,25 +6,34 @@ import { useNavigate } from "react-router-dom";
 
 interface RequestForm {
     email: string,
-    password: string
+    password: string,
+    name: string,
+    userType: 'cli' | 'psy'
 }
 
 const defaultValues: RequestForm = {
     email: '',
-    password: ''
+    password: '',
+    name: '',
+    userType: 'cli'
 }
 
-export default function Login() {
+const userTypeOptions: Option<string, string>[] = [
+    { value: 'cli', label: 'Client' },
+    { value: 'psy', label: 'Psychologist' }
+] 
+
+export default function Register() {
     const [request, setRequest] = useState<RequestForm>(defaultValues)
     const navigate = useNavigate()
 
     function handleSubmit(event?: React.FormEvent<HTMLFormElement>) {
         event?.preventDefault()
         axios
-            .post('/api/v1/login', request)
+            .post('/api/v1/register', request)
             .then((response) => {
                 toast.success(response.data.message)
-                navigate(0)
+                navigate('/login')
             })
             .catch((error) => {
                 if (error.status === 422) {
@@ -39,7 +49,7 @@ export default function Login() {
             })
     }
 
-    function handleChange(e: React.ChangeEvent<HTMLInputElement>) {
+    function handleChange(e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) {
         const { name, value } = e.target
         setRequest({
             ...request,
@@ -49,9 +59,18 @@ export default function Login() {
 
     return (
         <div className="flex flex-col gap-8 justify-center items-center h-screen">
-            <div className="text-3xl font-bold">LOGIN <span className="text-white bg-gray-800 p-2">APLIKASI DASS</span></div>
+            <div className="text-3xl font-bold">REGISTER <span className="text-white bg-gray-800 p-2">AKUN</span></div>
             <form onSubmit={handleSubmit} className="flex flex-col gap-4 p-4 w-96">
-                <label className="text-lg font-semibold">Email:</label>
+                <label className="text-xl font-bold">Name:</label>
+                <input
+                    type="text"
+                    id="name"
+                    name="name"
+                    className="bg-gray-100 p-2 rounded-md"
+                    value={request.name}
+                    onChange={handleChange}
+                />
+                <label className="text-xl font-bold">Email:</label>
                 <input
                     type="email"
                     id="email"
@@ -60,7 +79,7 @@ export default function Login() {
                     value={request.email}
                     onChange={handleChange}
                 />
-                <label className="text-lg font-semibold">Password:</label>
+                <label className="text-xl font-bold">Password:</label>
                 <input
                     type="password"
                     id="password"
@@ -69,7 +88,21 @@ export default function Login() {
                     value={request.password}
                     onChange={handleChange}
                 />
-                <button type="submit" className="bg-blue-900 text-xl p-2 mt-16 rounded-md text-white">Login</button>
+                <label className="text-xl font-bold">User Type:</label>
+                <select
+                    name="userType"
+                    id="userType"
+                    value={request.userType}
+                    onChange={handleChange}
+                    className="bg-gray-100 p-2 rounded-md"
+                >
+                    {userTypeOptions.map((option) => (
+                        <option key={option.value} value={option.value}>
+                            {option.label}
+                        </option>
+                    ))}
+                </select>
+                <button type="submit" className="bg-blue-900 text-xl p-2 mt-16 rounded-md text-white">Register</button>
             </form>
         </div>
     )
