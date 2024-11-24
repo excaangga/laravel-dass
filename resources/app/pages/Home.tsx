@@ -3,18 +3,18 @@ import axios from "axios";
 import toast from "react-hot-toast";
 import { useEffect, useState } from "react";
 
-interface ResponseForm {
+interface ResponseData {
     userName: string,
     userSlug: string
 }
 
-const defaultValues: ResponseForm = {
+const defaultValues: ResponseData = {
     userName: '',
     userSlug: ''
 }
 
 export default function Sidebar() {
-    const [response, setResponse] = useState<ResponseForm>(defaultValues)
+    const [response, setResponse] = useState<ResponseData>(defaultValues)
     const navigate = useNavigate()
 
     function handleCheckInfo() {
@@ -43,7 +43,7 @@ export default function Sidebar() {
     }, [])
 
     return (
-        <div className="h-full mt-40 flex flex-col justify-center items-center gap-8">
+        <div className="h-full mt-[10%] flex flex-col justify-center items-center gap-8">
             {response.userSlug === 'cli' && 
                 <>
                     <div className="text-4xl font-bold">Halo <span className="underline">{response.userName}</span></div>

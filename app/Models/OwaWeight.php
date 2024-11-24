@@ -5,7 +5,7 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
-class OWAWeight extends Model
+class OwaWeight extends Model
 {
     /**
      * The attributes that are mass assignable.
@@ -15,8 +15,9 @@ class OWAWeight extends Model
     protected $fillable = [
         'question_team_id',
         'question_id',
-        'symptom',
-        'weight_value',
+        'depression_weight',
+        'anxiety_weight',
+        'stress_weight'
     ];
 
     public function questionTeam(): BelongsTo {

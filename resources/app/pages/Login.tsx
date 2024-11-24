@@ -3,18 +3,18 @@ import React, { useState } from "react";
 import toast from "react-hot-toast";
 import { useNavigate } from "react-router-dom";
 
-interface RequestForm {
+interface RequestData {
     email: string,
     password: string
 }
 
-const defaultValues: RequestForm = {
+const defaultValues: RequestData = {
     email: '',
     password: ''
 }
 
 export default function Login() {
-    const [request, setRequest] = useState<RequestForm>(defaultValues)
+    const [request, setRequest] = useState<RequestData>(defaultValues)
     const navigate = useNavigate()
 
     function handleSubmit(event?: React.FormEvent<HTMLFormElement>) {

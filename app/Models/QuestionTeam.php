@@ -23,7 +23,7 @@ class QuestionTeam extends Model
     }
 
     public function owaWeights(): HasMany {
-        return $this->hasMany(OWAWeight::class);
+        return $this->hasMany(OwaWeight::class);
     }
 
     public function clientScores(): HasMany {

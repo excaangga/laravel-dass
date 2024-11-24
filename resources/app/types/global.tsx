@@ -1,4 +1,9 @@
-export interface Option<t, k> {
-    value: t,
-    label: k
+export interface Option {
+    value: string,
+    label: string
+}
+
+export interface NumberOption {
+    value: number,
+    label: string
 }

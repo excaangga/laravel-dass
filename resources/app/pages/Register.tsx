@@ -3,28 +3,29 @@ import axios from "axios";
 import React, { useState } from "react";
 import toast from "react-hot-toast";
 import { useNavigate } from "react-router-dom";
+import Select, { SingleValue } from "react-select";
 
-interface RequestForm {
+interface RequestData {
     email: string,
     password: string,
     name: string,
-    userType: 'cli' | 'psy'
+    userType: string
 }
 
-const defaultValues: RequestForm = {
+const defaultValues: RequestData = {
     email: '',
     password: '',
     name: '',
     userType: 'cli'
 }
 
-const userTypeOptions: Option<string, string>[] = [
+const userTypeOptions: Option[] = [
     { value: 'cli', label: 'Client' },
     { value: 'psy', label: 'Psychologist' }
 ] 
 
 export default function Register() {
-    const [request, setRequest] = useState<RequestForm>(defaultValues)
+    const [request, setRequest] = useState<RequestData>(defaultValues)
     const navigate = useNavigate()
 
     function handleSubmit(event?: React.FormEvent<HTMLFormElement>) {
@@ -49,12 +50,21 @@ export default function Register() {
             })
     }
 
-    function handleChange(e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) {
+    function handleChange(e: React.ChangeEvent<HTMLInputElement>) {
         const { name, value } = e.target
         setRequest({
             ...request,
             [name]: value
         })
+    }
+
+    function handleUserTypeChange(option: SingleValue<Option>) {
+        if (option) {
+            setRequest({
+                ...request,
+                userType: option.value,
+            })
+        }
     }
 
     return (
@@ -89,20 +99,14 @@ export default function Register() {
                     onChange={handleChange}
                 />
                 <label className="text-xl font-bold">User Type:</label>
-                <select
-                    name="userType"
-                    id="userType"
-                    value={request.userType}
-                    onChange={handleChange}
-                    className="bg-gray-100 p-2 rounded-md"
-                >
-                    {userTypeOptions.map((option) => (
-                        <option key={option.value} value={option.value}>
-                            {option.label}
-                        </option>
-                    ))}
-                </select>
-                <button type="submit" className="bg-blue-900 text-xl p-2 mt-16 rounded-md text-white">Register</button>
+                <Select
+                    placeholder="Select User Type"
+                    options={userTypeOptions}
+                    value={userTypeOptions.find((option) => option.value === request.userType)}
+                    onChange={handleUserTypeChange}
+                    className="text-gray-700"
+                />
+                <button type="submit" className="bg-blue-900 text-xl p-2 mt-20 rounded-md text-white">Register</button>
             </form>
         </div>
     )

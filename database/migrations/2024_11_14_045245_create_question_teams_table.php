@@ -14,7 +14,7 @@ return new class extends Migration
         Schema::create('question_teams', function (Blueprint $table) {
             $table->id();
             $table->string('name');
-            $table->string('code');
+            $table->string('code')->unique();
             $table->enum('method_type', ['OWA', 'IOWA']);
             $table->timestamps();
         });

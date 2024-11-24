@@ -4,9 +4,8 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
-use Illuminate\Database\Eloquent\Relations\HasMany;
 
-class OWAWeight extends Model
+class ClientScore extends Model
 {
     /**
      * The attributes that are mass assignable.
@@ -16,8 +15,10 @@ class OWAWeight extends Model
     protected $fillable = [
         'profile_id',
         'question_team_id',
-        'symptom',
-        'score_value',
+        'depression_score',
+        'anxiety_score',
+        'stress_score',
+        'question_type'
     ];
 
     public function profile(): BelongsTo {

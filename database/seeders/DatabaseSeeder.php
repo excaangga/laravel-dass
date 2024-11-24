@@ -13,5 +13,10 @@ class DatabaseSeeder extends Seeder
         $this->call(UserSeeder::class);
         $this->call(ProfileSeeder::class);
         $this->call(QuestionSeeder::class);
+        $this->call(QuestionTeamSeeder::class);
+        $this->call(ClientScoreSeeder::class);
+        $this->call(QuestionTeamMemberSeeder::class);
+        $this->call(QuestionScoreSeeder::class);
+        $this->call(OwaWeightSeeder::class);
     }
 }

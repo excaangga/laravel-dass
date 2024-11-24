@@ -15,8 +15,9 @@ return new class extends Migration
             $table->id();
             $table->foreignId('question_team_id')->constrained()->onDelete('cascade');
             $table->foreignId('question_id')->constrained()->onDelete('cascade');
-            $table->enum('symptom', ['DEPRESSION', 'ANXIETY', 'STRESS']);
-            $table->decimal('weight_value', 12, 11);
+            $table->decimal('depression_weight', 12, 11);
+            $table->decimal('anxiety_weight', 12, 11);
+            $table->decimal('stress_weight', 12, 11);
             $table->timestamps();
         });
     }

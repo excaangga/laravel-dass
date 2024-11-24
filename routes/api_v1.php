@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\api\v1\AuthController;
 use App\Http\Controllers\api\v1\QuestionController;
+use App\Http\Controllers\api\v1\ReportingController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -25,5 +26,7 @@ Route::group([
     Route::get('/show', [AuthController::class, 'showAuthInfo']);
 
     Route::post('/questionnaire', [QuestionController::class, 'index']);
+    Route::post('/questionnaire/score', [QuestionController::class, 'calculateClientScore']);
 
+    Route::post('/reporting', [ReportingController::class, 'index']);
 });
