@@ -7,21 +7,26 @@ import {
     BeakerIcon,
     ChartBarIcon,
     ChevronUpIcon,
-    ChevronDownIcon
+    ChevronDownIcon,
+    UserGroupIcon
 } from '@heroicons/react/24/outline'
 import axios from "axios"
 import toast from "react-hot-toast"
 import { useEffect, useState } from "react"
 
 const routes = [
+    // for all users
     { path: "/", label: "Dashboard", icon: HomeIcon, roles: ['cli', 'psy'] },
     { path: "/login", label: "Login", icon: ArrowRightStartOnRectangleIcon, roles: ['guest'] },
     { path: "/register", label: "Register", icon: ArrowRightEndOnRectangleIcon, roles: ['guest'] },
+    // for client
     { path: "/questionnaire", label: "Pengujian", icon: BeakerIcon, roles: ['cli'], children: [
         { path: "/questionnaire/dass21", label: "DASS-21", roles: ['cli'] },
         { path: "/questionnaire/dass42", label: "DASS-42", roles: ['cli'] },
     ] },
     { path: "/reporting", label: "Report", icon: ChartBarIcon, roles: ['cli'] },
+    // for psychologist
+    { path: "/teams", label: "Tim Psikolog", icon: UserGroupIcon, roles: ['psy'] },
 ]
 
 interface ResponseForm {

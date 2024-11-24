@@ -15,7 +15,8 @@ class QuestionTeam extends Model
     protected $fillable = [
         'name',
         'code',
-        'method_type'
+        'method_type',
+        'is_published'
     ];
 
     public function questionTeamMembers(): HasMany {

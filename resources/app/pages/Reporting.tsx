@@ -5,7 +5,6 @@ import toast from "react-hot-toast"
 import { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, Legend, ResponsiveContainer } from "recharts"
 
 interface ResponseData {
-    id: number,
     questionTeam: string,
     questionType: string,
     depressionScore: string,
@@ -16,7 +15,7 @@ interface ResponseData {
 
 const defaultValues: ResponseData[] = []
 
-export default function Questionnaire() {
+export default function Reporting() {
     const [response, setResponse] = useState<ResponseData[]>(defaultValues)
     const [currentPage, setCurrentPage] = useState<number>(1)
     const [totalPages, setTotalPages] = useState<number>(1)

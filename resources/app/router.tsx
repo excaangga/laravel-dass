@@ -11,6 +11,9 @@ const Register = React.lazy(() => import('@/pages/Register'))
 const QuestionnaireDASS21 = React.lazy(() => import('@/pages/QuestionnaireDASS21'))
 const QuestionnaireDASS42 = React.lazy(() => import('@/pages/QuestionnaireDASS42'))
 const Reporting = React.lazy(() => import('@/pages/Reporting'))
+const Teams = React.lazy(() => import('@/pages/Teams'))
+const CreateTeam = React.lazy(() => import('@/components/CreateTeam'))
+const JoinTeam = React.lazy(() => import('@/components/JoinTeam'))
 
 async function suspenseWrapper(Component: React.ComponentType, allowedRoles: string[]) {
     const WrappedComponent = await withAuth(Component, allowedRoles)
@@ -29,6 +32,9 @@ const routes = [
         { path: 'questionnaire/dass21', element: await suspenseWrapper(QuestionnaireDASS21, ['cli']) },
         { path: 'questionnaire/dass42', element: await suspenseWrapper(QuestionnaireDASS42, ['cli']) },
         { path: 'reporting', element: await suspenseWrapper(Reporting, ['cli']) },
+        { path: 'teams', element: await suspenseWrapper(Teams, ['psy']) },
+        { path: 'teams/create', element: await suspenseWrapper(CreateTeam, ['psy']) },
+        { path: 'teams/join', element: await suspenseWrapper(JoinTeam, ['psy']) },
         { path: '*', element: <Error404 /> },
     ]},
 ]

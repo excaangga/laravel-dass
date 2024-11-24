@@ -3,6 +3,8 @@
 use App\Http\Controllers\api\v1\AuthController;
 use App\Http\Controllers\api\v1\QuestionController;
 use App\Http\Controllers\api\v1\ReportingController;
+use App\Http\Controllers\api\v1\ScoringController;
+use App\Http\Controllers\api\v1\TeamController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -29,4 +31,11 @@ Route::group([
     Route::post('/questionnaire/score', [QuestionController::class, 'calculateClientScore']);
 
     Route::post('/reporting', [ReportingController::class, 'index']);
+
+    Route::post('/teams', [TeamController::class, 'index']);
+    Route::post('/teams/store', [TeamController::class, 'store']);
+    Route::post('/teams/join', [TeamController::class, 'joinTeam']);
+
+    Route::post('/scoring', [ScoringController::class, 'index']);
+    Route::post('/scoring/store', [ScoringController::class, 'store']);
 });

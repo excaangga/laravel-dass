@@ -12,7 +12,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Validation\ValidationException;
-use Exception;
+use PHPUnit\Exception;
 
 class QuestionController extends Controller
 {
@@ -75,7 +75,7 @@ class QuestionController extends Controller
                     'score' => $score
                 ], [
                     'questionId' => 'required|integer',
-                    'score' => 'required|integer|min:0|max:4'
+                    'score' => 'required|integer|min:0|max:3'
                 ]);
             }
 

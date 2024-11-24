@@ -13,7 +13,7 @@ const defaultValues: ResponseData = {
     userSlug: ''
 }
 
-export default function Sidebar() {
+export default function Home() {
     const [response, setResponse] = useState<ResponseData>(defaultValues)
     const navigate = useNavigate()
 
@@ -73,7 +73,7 @@ export default function Sidebar() {
                     <button
                         type="button"
                         className="mt-8 bg-blue-900 text-xl p-4 mt-16 rounded-md text-white"
-                        onClick={() => navigate('/test')}
+                        onClick={() => navigate('/teams')}
                     >
                         Submit Data DASS
                     </button>
