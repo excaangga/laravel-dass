@@ -81,6 +81,7 @@ export default function Teams() {
 
     function resetSelectedTeam() {
         setSelectedTeam(null)
+        fetch(currentPage)
     }
 
     return (
