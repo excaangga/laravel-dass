@@ -115,9 +115,9 @@ class QuestionController extends Controller
                 $clientScore->save();
 
                 $finalScore = [
-                    'depressionScore' => $depressionScore,
-                    'anxietyScore' => $anxietyScore,
-                    'stressScore' => $stressScore
+                    'depressionScore' => round($depressionScore, 2),
+                    'anxietyScore' => round($anxietyScore, 2),
+                    'stressScore' => round($stressScore, 2)
                 ];
 
                 return response()->json([

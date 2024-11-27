@@ -38,4 +38,5 @@ Route::group([
 
     Route::post('/scoring', [ScoringController::class, 'index']);
     Route::post('/scoring/store', [ScoringController::class, 'store']);
+    Route::post('/scoring/publish', [ScoringController::class, 'publish']);
 });

@@ -4,12 +4,16 @@ import axios from "axios"
 import { useEffect, useState } from "react"
 import toast from "react-hot-toast"
 import ScoringDASS21 from "./ScoringDASS21"
+import ScoringDASS42 from "./ScoringDASS42"
 
 interface ResponseData {
-    createdAt: string,
     teamMember: string,
-    hasSubmittedScoring: boolean,
-    userHasScored: boolean
+    dass21CreatedAt: string,
+    dass42CreatedAt: string,
+    userHasScoredDass21: boolean,
+    userHasScoredDass42: boolean,
+    memberExistsWithNoDass21Score: boolean,
+    memberExistsWithNoDass42Score: boolean
 }
 
 const defaultValues: ResponseData[] = []
@@ -26,12 +30,12 @@ export default function Scorings({ questionTeamId, questionTeamName, isPublished
     const [currentPage, setCurrentPage] = useState<number>(1)
     const [totalPages, setTotalPages] = useState<number>(1)
     const [loading, setLoading] = useState<boolean>(false)
-    const [isScoring, setIsScoring] = useState<boolean>(false)
+    const [isScoring, setIsScoring] = useState<'dass21' | 'dass42' | null>(null)
 
     const headers = [
-        'Tanggal Scoring',
         'Nama Psikolog',
-        'Status'
+        'Tanggal Scoring DASS21',
+        'Tanggal Scoring DASS42'
     ]
 
     function fetch(page: number) {
@@ -58,6 +62,29 @@ export default function Scorings({ questionTeamId, questionTeamName, isPublished
 
     }
 
+    function handlePublish(event?: React.FormEvent<HTMLFormElement>) {
+        event?.preventDefault()
+        axios
+            .post('/api/v1/scoring/publish', { questionTeamId })
+            .then((response) => {
+                toast.success(response.data.message)
+                fetch(currentPage)
+                onBack()
+            })
+            .catch((error) => {
+                if (error.status === 422) {
+                    const errorData = error.response.data.errors
+                    Object.keys(errorData).forEach((field) => {
+                        toast.error(errorData[field][0])
+                    })
+                } else if (error.status === 401) {
+                    toast.error(error.response.data.message)
+                } else {
+                    toast.error(error.response.data.message)
+                }
+            })
+    }
+
     useEffect(() => {
         fetch(currentPage)
     }, [currentPage])
@@ -69,21 +96,30 @@ export default function Scorings({ questionTeamId, questionTeamName, isPublished
     }
     
     const mappedResponse = response.map((item) => ({
-        createdAt: item.createdAt,
         teamMember: item.teamMember,
-        hasSubmittedScoring: item.hasSubmittedScoring ? 'Selesai Scoring' : 'Belum Scoring'
+        dass21CreatedAt: item.dass21CreatedAt,
+        dass42CreatedAt: item.dass42CreatedAt,
     }))
 
     return (
         <div className="h-full">
             {!loading ? (
                 <>
-                    {isScoring ? (
+                    {isScoring === 'dass21' ? (
                         <ScoringDASS21 
                             questionTeamId={questionTeamId} 
                             questionTeamName={questionTeamName}
                             onBack={() => {
-                                setIsScoring(false)
+                                setIsScoring(null)
+                                fetch(currentPage)
+                            }} 
+                        />
+                    ) : isScoring === 'dass42' ? (
+                        <ScoringDASS42 
+                            questionTeamId={questionTeamId} 
+                            questionTeamName={questionTeamName}
+                            onBack={() => {
+                                setIsScoring(null)
                                 fetch(currentPage)
                             }} 
                         />
@@ -95,16 +131,30 @@ export default function Scorings({ questionTeamId, questionTeamName, isPublished
                                     <span>{questionTeamName}</span>
                                 </div>
                                 <div className="font-medium text-lg flex gap-4">
-                                    {(response.length > 0 && !response[0].userHasScored) && (
+                                    {(response.length > 0 && !response[0].userHasScoredDass21) && (
                                         <>
-                                            <button className="underline" onClick={() => setIsScoring(true)}>
-                                                Tambah Scoring Anda
+                                            <button className="underline" onClick={() => setIsScoring('dass21')}>
+                                                Tambah Scoring DASS21
+                                            </button>
+                                            <span>|</span>
+                                        </>                                    
+                                    )}
+                                    {(response.length > 0 && !response[0].userHasScoredDass42) && (
+                                        <>
+                                            <button className="underline" onClick={() => setIsScoring('dass42')}>
+                                                Tambah Scoring DASS42
                                             </button>
                                             <span>|</span>
                                         </>                                    
                                     )}
                                     { isPublished !== true && (
-                                        <button className={`underline ${response.find((item) => item.hasSubmittedScoring === false) ? 'cursor-not-allowed' : ''}`} onClick={() => {}}>
+                                        <button 
+                                            className={`
+                                                underline 
+                                                ${(response.find((item) => item.memberExistsWithNoDass21Score === false || response.find((item) => item.memberExistsWithNoDass42Score === false ))) ? 'cursor-not-allowed' : ''}
+                                            `} 
+                                            onClick={() => handlePublish()}
+                                        >
                                             Publikasi
                                         </button>
                                     )}
