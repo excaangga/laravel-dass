@@ -16,7 +16,8 @@ class QuestionTeam extends Model
         'name',
         'code',
         'method_type',
-        'is_published'
+        'is_published',
+        'is_shown'
     ];
 
     public function questionTeamMembers(): HasMany {

@@ -18,11 +18,12 @@ interface ResponseData {
 
 const defaultValues: ResponseData[] = []
 
+// isPublished is thrown as string, hence the weird typing
 interface ScoringsProps {
     questionTeamId: string, 
     questionTeamName: string,
-    isPublished: boolean,
-    onBack: () => void
+    isPublished: boolean | string,
+    onBack: () => void,
 }
 
 export default function Scorings({ questionTeamId, questionTeamName, isPublished, onBack }: ScoringsProps) {
@@ -147,12 +148,13 @@ export default function Scorings({ questionTeamId, questionTeamName, isPublished
                                             <span>|</span>
                                         </>                                    
                                     )}
-                                    { isPublished !== true && (
+                                    { isPublished !== 'Dipublikasi' && (
                                         <button 
                                             className={`
                                                 underline 
                                                 ${(response.find((item) => item.memberExistsWithNoDass21Score === false || response.find((item) => item.memberExistsWithNoDass42Score === false ))) ? 'cursor-not-allowed' : ''}
                                             `} 
+                                            disabled={(response.find((item) => item.memberExistsWithNoDass21Score === false || response.find((item) => item.memberExistsWithNoDass42Score === false ))) ? true : false}
                                             onClick={() => handlePublish()}
                                         >
                                             Publikasi

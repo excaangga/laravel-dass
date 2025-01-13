@@ -35,6 +35,7 @@ Route::group([
     Route::post('/teams', [TeamController::class, 'index']);
     Route::post('/teams/store', [TeamController::class, 'store']);
     Route::post('/teams/join', [TeamController::class, 'joinTeam']);
+    Route::patch('/teams/update', [TeamController::class, 'update']);
 
     Route::post('/scoring', [ScoringController::class, 'index']);
     Route::post('/scoring/store', [ScoringController::class, 'store']);

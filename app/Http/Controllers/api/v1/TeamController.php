@@ -43,7 +43,8 @@ class TeamController extends Controller
                         'questionTeam' => $team->name . ' - ' . $team->method_type,
                         'code' => $team->code,
                         'teamMembers' => implode(', ', $memberNames),
-                        'isPublished' => $team->is_published
+                        'isPublished' => $team->is_published,
+                        'isShown' => $team->is_shown
                     ];
                 }
 
@@ -88,6 +89,25 @@ class TeamController extends Controller
                     'question_team_id' => $questionTeam->id
                 ]);
                 $questionTeamMember->save();
+
+                return response()->json([
+                    'data' => null,
+                    'message' => 'Data stored successfully',
+                ]);
+            }
+        } catch (Exception $error) {
+            return response()->json([
+                'data' => $error,
+                'message' => 'Data is not stored, server error'
+            ], 500);
+        }
+    }
+
+    public function update(Request $request): JsonResponse {
+        try {
+            $team = QuestionTeam::where('id', $request->id)->first();
+            if ($team) {
+                $team->update(['is_shown' => $request->isShown]);
 
                 return response()->json([
                     'data' => null,

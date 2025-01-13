@@ -11,6 +11,7 @@ interface ResponseData {
     code: string,
     teamMembers: string,
     isPublished: boolean,
+    isShown: boolean,
     createdAt: string,
 }
 
@@ -29,7 +30,8 @@ export default function Teams() {
         'Nama Tim',
         'Kode Tim',
         'Anggota Tim',
-        'Status'
+        'Status',
+        'Tampilkan'
     ]
     const actions = [
         { 
@@ -64,6 +66,20 @@ export default function Teams() {
 
     }
 
+    function handleUpdateIsShown(id: number, isShown: boolean) {
+        axios.patch('/api/v1/teams/update', {
+            id,
+            isShown
+        })
+        .then(() => {
+            toast.success('Data updated successfully')
+            fetch(currentPage)
+        })
+        .catch(() => {
+            toast.error('Failed to update data')
+        })
+    }
+
     useEffect(() => {
         fetch(currentPage)
     }, [currentPage])
@@ -76,7 +92,8 @@ export default function Teams() {
     
     const mappedResponse = response.map((item) => ({
         ...item,
-        isPublished: item.isPublished ? 'Dipublikasi' : 'Belum dipublikasi'
+        isPublished: item.isPublished ? 'Dipublikasi' : 'Belum dipublikasi',
+        isShown: item.isShown
     }))
 
     function resetSelectedTeam() {
@@ -112,7 +129,14 @@ export default function Teams() {
                                 </div>
                             </div>
                             <div>
-                                <Table headers={headers} data={mappedResponse} actions={actions} />
+                                <Table 
+                                    headers={headers} 
+                                    data={mappedResponse} 
+                                    actions={actions}
+                                    onChangeAction={(row, _, value) => {
+                                        handleUpdateIsShown(row.id, value)
+                                    }}
+                                />
                                 <div className="flex justify-between items-center mt-4 text-sm font-semibold">
                                     <span className="font-light">
                                         Halaman {currentPage} dari {totalPages}

@@ -36,9 +36,9 @@ class ReportingController extends Controller
                         'createdAt' => $formattedDate,
                         'questionTeam' => $questionTeam->name . ' - ' . $questionTeam->method_type,
                         'questionType' => $score->question_type,
-                        'depressionScore' => $score->depression_score,
-                        'anxietyScore' => $score->anxiety_score,
-                        'stressScore' => $score->stress_score,
+                        'depressionScore' => number_format($score->depression_score, 2),
+                        'anxietyScore' => number_format($score->anxiety_score, 2),
+                        'stressScore' => number_format($score->stress_score, 2),
                     ];
                 }
 

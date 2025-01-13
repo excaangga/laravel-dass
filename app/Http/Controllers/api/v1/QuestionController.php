@@ -24,11 +24,12 @@ class QuestionController extends Controller
             ]);
 
             $questionType = $request->questionType;
-            $questionTeams = QuestionTeam::whereHas('owaWeights', function ($owaQuery) use ($questionType) {
-                $owaQuery->whereHas('question', function ($questionQuery) use ($questionType) {
-                    $questionQuery->where('question_type', $questionType);
-                });
-            })->get();
+            $questionTeams = QuestionTeam::where('is_shown', true)
+                ->whereHas('owaWeights', function ($owaQuery) use ($questionType) {
+                    $owaQuery->whereHas('question', function ($questionQuery) use ($questionType) {
+                        $questionQuery->where('question_type', $questionType);
+                    });
+                })->get();
             $questionTeamOptions = [];
 
             foreach ($questionTeams as $questionTeam) {

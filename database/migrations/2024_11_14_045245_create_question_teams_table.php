@@ -17,6 +17,7 @@ return new class extends Migration
             $table->string('code')->unique();
             $table->enum('method_type', ['OWA', 'IOWA']);
             $table->boolean('is_published')->default(false);
+            $table->boolean('is_shown')->default(false);
             $table->timestamps();
         });
     }

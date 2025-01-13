@@ -4,10 +4,12 @@ export default function Table({
     headers,
     data,
     actions,
+    onChangeAction
 }: {
     headers: string[]
     data: any[] | null
     actions?: { label: string; action: (row: any) => void }[]
+    onChangeAction?: (row: any, field: string, value: any) => void
 }) {
     const [openDropdownIndex, setOpenDropdownIndex] = useState<number | null>(null)
     const dropdownRefs = useRef(new Map<number, HTMLDivElement>())
@@ -47,12 +49,27 @@ export default function Table({
                 {data && data.length > 0 ? (
                     data.map((row: Object, index: number) => {
                         const filteredRow = Object.entries(row).filter(([key]) => key !== "id")
+                        const hasIsPublished = (obj: any): obj is { isPublished: string } => 'isPublished' in obj
 
                         return (
                             <tr key={index}>
-                                {filteredRow.map(([, cell], cellIndex) => (
+                                {filteredRow.map(([key, cell], cellIndex) => (
                                     <td className="text-center" key={cellIndex}>
-                                        {cell}
+                                        {key === 'isShown' ? (
+                                            <input
+                                                type="checkbox"
+                                                checked={cell as boolean}
+                                                className={(hasIsPublished(row) && row.isPublished === 'Dipublikasi') ? 'cursor-pointer' : 'cursor-not-allowed'}
+                                                disabled={(hasIsPublished(row) && row.isPublished !== 'Dipublikasi')}
+                                                onChange={(e) => {
+                                                    if (onChangeAction) {
+                                                        onChangeAction(row, key, e.target.checked)
+                                                    }
+                                                }}
+                                            />
+                                        ) : (
+                                            cell
+                                        )}
                                     </td>
                                 ))}
                                 {actions && (
